@@ -8,12 +8,20 @@ describe('studio routes', () => {
   });
 
   it('creates a new studio', async () => {
-
     const newStudio = await request(app)
-    .post('/api/v1/studios')
-    .send({ name: 'Ghibli', city: 'Tokyo', state: 'Kanto', country: 'Japan' });
+      .post('/api/v1/studios')
+      .send({
+        name: 'Ghibli',
+        city: 'Tokyo',
+        state: 'Kanto',
+        country: 'Japan',
+      });
 
-    expect(newStudio.body).toEqual({ name: 'Ghibli', city: 'Tokyo', state: 'Kanto', country: 'Japan' });
+    expect(newStudio.body).toEqual({
+      name: 'Ghibli',
+      city: 'Tokyo',
+      state: 'Kanto',
+      country: 'Japan',
+    });
   });
-
 });
