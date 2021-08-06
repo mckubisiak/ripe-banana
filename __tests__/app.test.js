@@ -1,6 +1,7 @@
 import request from 'supertest';
 import app from '../lib/app.js';
 import database from '../lib/utils/database.js';
+import Studio from '../lib/models/Studio';
 
 describe('studio routes', () => {
   beforeEach(() => {
@@ -36,6 +37,6 @@ describe('studio routes', () => {
     });
     const res = await request(app).get('/api/v1/studios/1');
 
-    expect(res.body).toEqual(user.toJSON());
+    expect(res.body).toEqual(studio.toJSON());
   });
 });
