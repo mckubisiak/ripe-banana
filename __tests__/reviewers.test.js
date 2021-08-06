@@ -1,5 +1,6 @@
 import request from 'supertest';
 import app from '../lib/app.js';
+import reviewers from '../lib/controllers/reviewers.js';
 import database from '../lib/utils/database.js';
 
 describe('reviewer routes', () => {
@@ -18,5 +19,16 @@ describe('reviewer routes', () => {
       name: 'Robb Owen',
       company: 'SynthWave',
     });
+  });
+  it('gets all reviewers', async () => {
+    return request(app)
+      .get('/api/v1/reviewers')
+      .then((res) => {
+        expect(res.body).toEqual([
+          {
+            ...reviewers,
+          },
+        ]);
+      });
   });
 });
