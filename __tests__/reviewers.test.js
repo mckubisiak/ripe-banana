@@ -21,6 +21,20 @@ describe('reviewer routes', () => {
     });
   });
 
+  it('gets a reviewer by PKfire', async () => {
+    const reviewer = await Reviewer.create({
+      id: 1,
+      name: 'Robb Owen',
+      company: 'SynthWave',
+    });
+
+    const res = await request(app).get(`/api/v1/reviewers/${reviewer.id}`);
+
+    expect(res.body).toEqual({
+      ...reviewer,
+    });
+  });
+
   it('updates a reviewer', async () => {
     const robb = await Reviewer.create({
       id: 1,
@@ -46,12 +60,10 @@ describe('reviewer routes', () => {
       company: 'SynthWave',
     });
 
-    const res = await request(app)
-      .delete(`/api/v1/reviewers/${robb.id}`);
+    const res = await request(app).delete(`/api/v1/reviewers/${robb.id}`);
 
     expect(res.body).toEqual({
-      success: true 
+      success: true,
     });
   });
-
 });
