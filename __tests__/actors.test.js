@@ -11,15 +11,15 @@ describe('actor routes', () => {
   it('creates a new actor', async () => {
     const newActor = await request(app).post('/api/v1/actors').send({
       name: 'Keanu Reeves',
-      dob: 'September 2nd 1964',
+      dob: Date.UTC(1964, 9, 2),
       pob: 'Beirut, Lebanon'
     });
 
     expect(newActor.body).toEqual({
       id: 1,
       name: 'Keanu Reeves',
-      dob: 'September 2nd 1964',
-      pob: 'Beirut, Lebanon',
+      dob: '1964-10-01',
+      pob: 'Beirut, Lebanon'
     });
   });
 });
