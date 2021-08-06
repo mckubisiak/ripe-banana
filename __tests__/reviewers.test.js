@@ -30,11 +30,12 @@ describe('reviewer routes', () => {
     });
 
     const res = await request(app)
-      .patch(`/api/v1/reviewers/${Reviewer.id}`)
+      .patch(`/api/v1/reviewers/${robb.id}`)
       .send({ company: 'Darkwave' });
 
     expect(res.body).toEqual({
-      ...robb,
+      id: 1,
+      name: 'Robb Owen',
       company: 'Darkwave',
     });
   });
