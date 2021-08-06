@@ -1,6 +1,5 @@
 import request from 'supertest';
 import app from '../lib/app.js';
-import reviewers from '../lib/controllers/reviewers.js';
 import Reviewer from '../lib/models/Reviewer.js';
 import database from '../lib/utils/database.js';
 
@@ -48,10 +47,10 @@ describe('reviewer routes', () => {
     });
 
     const res = await request(app)
-      .destroy(`/api/v1/reviewers/${robb.id}`);
+      .delete(`/api/v1/reviewers/${robb.id}`);
 
     expect(res.body).toEqual({
-      message: `${robb.name} 0/5 stars`
+      success: true 
     });
   });
 
