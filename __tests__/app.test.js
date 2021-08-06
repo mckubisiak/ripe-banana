@@ -18,6 +18,7 @@ describe('studio routes', () => {
       });
 
     expect(newStudio.body).toEqual({
+      id: 1,
       name: 'Ghibli',
       city: 'Tokyo',
       state: 'Kanto',
