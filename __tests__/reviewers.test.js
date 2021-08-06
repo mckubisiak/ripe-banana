@@ -39,4 +39,20 @@ describe('reviewer routes', () => {
       company: 'Darkwave',
     });
   });
+
+  it('deletes a reviewer', async () => {
+    const robb = await Reviewer.create({
+      id: 1,
+      name: 'Robb Owen',
+      company: 'SynthWave',
+    });
+
+    const res = await request(app)
+      .destroy(`/api/v1/reviewers/${robb.id}`);
+
+    expect(res.body).toEqual({
+      message: `${robb.name} 0/5 stars`
+    });
+  });
+
 });
