@@ -3,16 +3,18 @@ import app from '../lib/app.js';
 import Reviewer from '../lib/models/Reviewer.js';
 import database from '../lib/utils/database.js';
 
-describe('reviewer routes', () => {
+describe.skip('reviewer routes', () => {
   beforeEach(() => {
     return database.sync({ force: true });
   });
 
   it('creates a new reviewer', async () => {
-    const newReviewer = await request(app).post('/api/v1/reviewers').send({
-      name: 'Robb Owen',
-      company: 'SynthWave',
-    });
+    const newReviewer = await request(app)
+      .post('/api/v1/reviewers')
+      .send({
+        name: 'Robb Owen',
+        company: 'SynthWave',
+      });
 
     expect(newReviewer.body).toEqual({
       id: 1,
