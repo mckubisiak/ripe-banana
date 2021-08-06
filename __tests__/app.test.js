@@ -9,14 +9,12 @@ describe('studio routes', () => {
   });
 
   it('creates a new studio', async () => {
-    const newStudio = await request(app)
-      .post('/api/v1/studios')
-      .send({
-        name: 'Ghibli',
-        city: 'Tokyo',
-        state: 'Kanto',
-        country: 'Japan',
-      });
+    const newStudio = await request(app).post('/api/v1/studios').send({
+      name: 'Ghibli',
+      city: 'Tokyo',
+      state: 'Kanto',
+      country: 'Japan',
+    });
 
     expect(newStudio.body).toEqual({
       id: 1,
@@ -38,5 +36,44 @@ describe('studio routes', () => {
     const res = await request(app).get('/api/v1/studios/1');
 
     expect(res.body).toEqual(studio.toJSON());
+  });
+  it('gets all studios', async () => {
+    const toto = {
+      id: 1,
+      name: 'Ghibli',
+      city: 'Tokyo',
+      state: 'Kanto',
+      country: 'Japan',
+    };
+
+    const studio2 = {
+      id: 2,
+      name: 'Ghibli',
+      city: 'Tokyo',
+      state: 'Kanto',
+      country: 'Japan',
+    };
+
+    await Studio.bulkCreate([toto, studio2]);
+    return request(app)
+      .get('/api/v1/studios')
+      .then((res) => {
+        expect(res.body).toEqual([
+          {
+            id: 1,
+            name: 'Ghibli',
+            city: 'Tokyo',
+            state: 'Kanto',
+            country: 'Japan',
+          },
+          {
+            id: 2,
+            name: 'Ghibli',
+            city: 'Tokyo',
+            state: 'Kanto',
+            country: 'Japan',
+          },
+        ]);
+      });
   });
 });
