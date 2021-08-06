@@ -1,6 +1,7 @@
 import request from 'supertest';
 import app from '../lib/app.js';
 import reviewers from '../lib/controllers/reviewers.js';
+import Reviewer from '../lib/models/Reviewer.js';
 import database from '../lib/utils/database.js';
 
 describe('reviewer routes', () => {
@@ -21,12 +22,32 @@ describe('reviewer routes', () => {
     });
   });
   it('gets all reviewers', async () => {
+    const robb = {
+      id: 1,
+      name: 'Robb Owen',
+      company: 'SynthWave',
+    };
+
+    const owen = {
+      id: 2,
+      name: 'Owen Robb',
+      company: 'SynthWave',
+    };
+
+    await Reviewer.bulkCreate([robb, owen]);
     return request(app)
       .get('/api/v1/reviewers')
       .then((res) => {
         expect(res.body).toEqual([
           {
-            ...reviewers,
+            id: 1,
+            name: 'Robb Owen',
+            company: 'SynthWave',
+          },
+          {
+            id: 2,
+            name: 'Owen Robb',
+            company: 'SynthWave',
           },
         ]);
       });
