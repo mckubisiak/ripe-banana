@@ -1,6 +1,5 @@
 import request from 'supertest';
 import app from '../lib/app.js';
-import reviewers from '../lib/controllers/reviewers.js';
 import Reviewer from '../lib/models/Reviewer.js';
 import database from '../lib/utils/database.js';
 
@@ -21,20 +20,19 @@ describe('reviewer routes', () => {
       company: 'SynthWave',
     });
   });
+
   it('gets all reviewers', async () => {
-    const robb = {
-      id: 1,
+    const reviewer1 = {
       name: 'Robb Owen',
       company: 'SynthWave',
     };
 
-    const owen = {
-      id: 2,
+    const reviewer2 = {
       name: 'Owen Robb',
-      company: 'SynthWave',
+      company: 'DarkSynth',
     };
 
-    await Reviewer.bulkCreate([robb, owen]);
+    await Reviewer.bulkCreate([reviewer1, reviewer2]);
     return request(app)
       .get('/api/v1/reviewers')
       .then((res) => {
@@ -47,9 +45,55 @@ describe('reviewer routes', () => {
           {
             id: 2,
             name: 'Owen Robb',
-            company: 'SynthWave',
+            company: 'DarkSynth',
           },
         ]);
       });
+  });
+
+  it('gets a reviewer by PKfire', async () => {
+    const reviewer = await Reviewer.create({
+      id: 1,
+      name: 'Robb Owen',
+      company: 'SynthWave',
+    });
+
+    const res = await request(app).get(`/api/v1/reviewers/${reviewer.id}`);
+
+    expect(res.body).toEqual({
+      ...reviewer.toJSON(),
+    });
+  });
+
+  it('updates a reviewer', async () => {
+    const robb = await Reviewer.create({
+      id: 1,
+      name: 'Robb Owen',
+      company: 'SynthWave',
+    });
+
+    const res = await request(app)
+      .patch(`/api/v1/reviewers/${robb.id}`)
+      .send({ company: 'Darkwave' });
+
+    expect(res.body).toEqual({
+      id: 1,
+      name: 'Robb Owen',
+      company: 'Darkwave',
+    });
+  });
+
+  it('deletes a reviewer', async () => {
+    const robb = await Reviewer.create({
+      id: 1,
+      name: 'Robb Owen',
+      company: 'SynthWave',
+    });
+
+    const res = await request(app).delete(`/api/v1/reviewers/${robb.id}`);
+
+    expect(res.body).toEqual({
+      success: true,
+    });
   });
 });
