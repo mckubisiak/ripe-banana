@@ -13,14 +13,14 @@ describe('film routes', () => {
       .post('/api/v1/films')
       .send({
         title: 'The Room',
-        // studio: 'Wiseau-Films',
+        // studio: 2,
         released: 2003
       });
 
     expect(newFilm.body).toEqual({
       id: 1,
       title: 'The Room',
-      // studio: 'Wiseau-Films',
+      // studio: 2,
       released: 2003
     });
   });
