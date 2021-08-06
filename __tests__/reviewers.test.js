@@ -21,35 +21,21 @@ describe('reviewer routes', () => {
       company: 'SynthWave',
     });
   });
-  it('gets all reviewers', async () => {
-    const robb = {
+
+  it('updates a reviewer', async () => {
+    const robb = await Reviewer.create({
       id: 1,
       name: 'Robb Owen',
       company: 'SynthWave',
-    };
+    });
 
-    const owen = {
-      id: 2,
-      name: 'Owen Robb',
-      company: 'SynthWave',
-    };
+    const res = await request(app)
+      .patch(`/api/v1/reviewers/${Reviewer.id}`)
+      .send({ company: 'Darkwave' });
 
-    await Reviewer.bulkCreate([robb, owen]);
-    return request(app)
-      .get('/api/v1/reviewers')
-      .then((res) => {
-        expect(res.body).toEqual([
-          {
-            id: 1,
-            name: 'Robb Owen',
-            company: 'SynthWave',
-          },
-          {
-            id: 2,
-            name: 'Owen Robb',
-            company: 'SynthWave',
-          },
-        ]);
-      });
+    expect(res.body).toEqual({
+      ...robb,
+      company: 'Darkwave',
+    });
   });
 });
