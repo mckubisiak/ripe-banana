@@ -31,7 +31,7 @@ describe('reviewer routes', () => {
     const res = await request(app).get(`/api/v1/reviewers/${reviewer.id}`);
 
     expect(res.body).toEqual({
-      ...reviewer,
+      ...reviewer.toJSON(),
     });
   });
 
