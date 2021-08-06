@@ -21,6 +21,36 @@ describe('reviewer routes', () => {
     });
   });
 
+  it('gets all reviewers', async () => {
+    const reviewer1 = {
+      name: 'Robb Owen',
+      company: 'SynthWave',
+    };
+
+    const reviewer2 = {
+      name: 'Owen Robb',
+      company: 'DarkSynth',
+    };
+
+    await Reviewer.bulkCreate([reviewer1, reviewer2]);
+    return request(app)
+      .get('/api/v1/reviewers')
+      .then((res) => {
+        expect(res.body).toEqual([
+          {
+            id: 1,
+            name: 'Robb Owen',
+            company: 'SynthWave',
+          },
+          {
+            id: 2,
+            name: 'Owen Robb',
+            company: 'DarkSynth',
+          },
+        ]);
+      });
+  });
+
   it('gets a reviewer by PKfire', async () => {
     const reviewer = await Reviewer.create({
       id: 1,

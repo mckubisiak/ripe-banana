@@ -37,6 +37,7 @@ describe('studio routes', () => {
 
     expect(res.body).toEqual(studio.toJSON());
   });
+
   it('gets all studios', async () => {
     const toto = {
       id: 1,
@@ -76,4 +77,5 @@ describe('studio routes', () => {
         ]);
       });
   });
+  
 });
