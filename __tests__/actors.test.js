@@ -60,20 +60,6 @@ describe('actor routes', () => {
       });
   });
 
-  it('gets an actor by PKthunder', async () => {
-    const actor = await Actor.create({
-      id: 1,
-      name: 'Bill Murray',
-      dob: '1950-10-20',
-      pob: 'Evanston, IL',
-    });
-
-    const res = await request(app).get(`/api/v1/actors/${actor.id}`);
-
-    expect(res.body).toEqual({
-      ...actor.toJSON(),
-    });
-  });
   it('gets an actor by PKthunder and add film', async () => {
     const actor = await Actor.create({
       id: 1,
@@ -82,18 +68,25 @@ describe('actor routes', () => {
       pob: 'Evanston, IL',
     });
 
+    const film1 = await Film.create({
+      title: 'Ghostbusters', released: 1984, ActorId: 1 
+    });
 
-    await Film.bulkCreate([
-      { title: 'Ghostbusters', released: 1984, ActorId: 1 },
-      { title: 'The Life Aquatic', released: 2004, ActorId: 1 },
-    ]);
+    const film2 = await Film.create({
+      title: 'The Life Aquatic', released: 2004, ActorId: 1
+    });
+
+    await actor.setFilms(film1, film2);
+    await film1.setActors(actor);
+    await film2.setActors(actor);
+    
 
     const res = await request(app).get(`/api/v1/actors/${actor.id}`);
-
+    console.log(actor.id);
     expect(res.body).toEqual({
       Films: [
-        { title: 'Ghostbusters', FilmId: 1, released: 1984, ActorId: 1 },
-        { title: 'The Life Aquatic', FilmId: 2, released: 2004, ActorId: 1 },
+        { ActorFilm: expect.any(Object), title: 'Ghostbusters', id: 1, released: 1984 },
+        { ActorFilm: expect.any(Object), title: 'The Life Aquatic', id: 2, released: 2004 },
       ],
 
       ...actor.toJSON(),
