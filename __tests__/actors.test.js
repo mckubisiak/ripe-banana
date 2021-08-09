@@ -3,7 +3,7 @@ import app from '../lib/app.js';
 import database from '../lib/utils/database.js';
 import Actor from '../lib/models/Actor';
 
-describe('actor routes', () => {
+describe.skip('actor routes', () => {
   beforeEach(() => {
     return database.sync({ force: true });
   });
