@@ -4,7 +4,7 @@ import database from '../lib/utils/database.js';
 import Actor from '../lib/models/Actor';
 import Film from '../lib/models/Film.js';
 
-describe.skip('actor routes', () => {
+describe('actor routes', () => {
   beforeEach(() => {
     return database.sync({ force: true });
   });
@@ -81,17 +81,19 @@ describe.skip('actor routes', () => {
       dob: '1950-10-20',
       pob: 'Evanston, IL',
     });
+
+
     await Film.bulkCreate([
-      { title: 'Ghostbusters', ActorId: actor.id, release: 1984 },
-      { title: 'The Life Aquatic', ActorId: actor.id, release: 2004 },
+      { title: 'Ghostbusters', released: 1984, ActorId: 1 },
+      { title: 'The Life Aquatic', released: 2004, ActorId: 1 },
     ]);
 
     const res = await request(app).get(`/api/v1/actors/${actor.id}`);
 
     expect(res.body).toEqual({
       Films: [
-        { title: 'Ghostbusters', ActorId: actor.id, release: 1984 },
-        { title: 'The Life Aquatic', ActorId: actor.id, release: 2004 },
+        { title: 'Ghostbusters', FilmId: 1, released: 1984, ActorId: 1 },
+        { title: 'The Life Aquatic', FilmId: 2, released: 2004, ActorId: 1 },
       ],
 
       ...actor.toJSON(),
