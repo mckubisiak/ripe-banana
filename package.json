@@ -10,7 +10,7 @@
     "start": "node -r dotenv/config server.js",
     "start:watch": "nodemon -r dotenv/config server.js",
     "setup-db": "node -r dotenv/config setup-db.js",
-    "setup-heroku": "heroku run npm run setup-db"
+    "setup-heroku": "heroku addons:create heroku-postgresql:hobby-dev && heroku config:set PGSSLMODE=require && heroku config:get DATABASE_URL"
   },
   "jest": {
     "testEnvironment": "node"

@@ -3,7 +3,7 @@ import app from '../lib/app.js';
 import Reviewer from '../lib/models/Reviewer.js';
 import database from '../lib/utils/database.js';
 
-describe.skip('reviewer routes', () => {
+describe('reviewer routes', () => {
   beforeEach(() => {
     return database.sync({ force: true });
   });
