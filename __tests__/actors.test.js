@@ -82,7 +82,7 @@ describe('actor routes', () => {
     
 
     const res = await request(app).get(`/api/v1/actors/${actor.id}`);
-    console.log(actor.id);
+
     expect(res.body).toEqual({
       Films: [
         { ActorFilm: expect.any(Object), title: 'Ghostbusters', id: 1, released: 1984 },

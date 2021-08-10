@@ -3,7 +3,7 @@ import app from '../lib/app.js';
 import database from '../lib/utils/database.js';
 import Studio from '../lib/models/Studio';
 
-describe.skip('studio routes', () => {
+describe('studio routes', () => {
   beforeEach(() => {
     return database.sync({ force: true });
   });
@@ -15,6 +15,8 @@ describe.skip('studio routes', () => {
       state: 'Kanto',
       country: 'Japan',
     });
+
+    
 
     expect(newStudio.body).toEqual({
       id: 1,
