@@ -1,6 +1,7 @@
 import request from 'supertest';
 import app from '../lib/app.js';
 import Actor from '../lib/models/Actor.js';
+import Film from '../lib/models/Film.js';
 import Review from '../lib/models/Review.js';
 import Reviewer from '../lib/models/Reviewer.js';
 import Studio from '../lib/models/Studio.js';
@@ -42,9 +43,9 @@ describe('film routes', () => {
       country: 'Japan',
     });
 
-    const film = await request(app).post('/api/v1/films').send({
+    const film = await Film.create({
       title: 'The Room',
-      studio: studio.id,
+      StudioId: studio.id,
       released: 2003,
     });
 
@@ -72,7 +73,9 @@ describe('film routes', () => {
 
     await film.setReviews(review);
 
-    expect(film.body).toEqual({
+    const res = await request(app).get(`/api/v1/films/${film.id}`);
+
+    expect(res.body).toEqual({
       id: 1,
       title: 'The Room',
       Studio: { id: 1, name: 'Ghibli' },
@@ -89,6 +92,4 @@ describe('film routes', () => {
       released: 2003,
     });
   });
-
-
 });
