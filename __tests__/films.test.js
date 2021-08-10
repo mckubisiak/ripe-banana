@@ -34,7 +34,61 @@ describe('film routes', () => {
     });
   });
 
- 
+  it('gets a film by id', async () => {
+    const studio = await Studio.create({
+      name: 'Ghibli',
+      city: 'Tokyo',
+      state: 'Kanto',
+      country: 'Japan',
+    });
+
+    const film = await request(app).post('/api/v1/films').send({
+      title: 'The Room',
+      studio: studio.id,
+      released: 2003,
+    });
+
+    const reviewer = await Reviewer.create({
+      id: 1,
+      name: 'Robb Owen',
+      company: 'SynthWave',
+    });
+
+    const review = await Review.create({
+      FilmId: film.id,
+      ReviewerId: reviewer.id,
+      rating: 5,
+      review: 'movie was trash',
+    });
+
+    const actor = await Actor.create({
+      name: 'Bill Murray',
+      dob: Date.UTC(1950, 9, 21),
+      pob: 'Evanston, IL',
+    });
+
+    await actor.setFilms(film);
+    await film.setActors(actor);
+
+    await film.setReviews(review);
+
+    expect(film.body).toEqual({
+      id: 1,
+      title: 'The Room',
+      Studio: { id: 1, name: 'Ghibli' },
+      Actors: [{ id: 1, name: 'Bill Murray' }],
+      Reviews: [
+        {
+          id: 1,
+          rating: 5,
+          review: 'movie was trash',
+          Reviewer: { id: 1, name: 'Robb Owen' },
+        },
+      ],
+
+      released: 2003,
+    });
+  });
 
 
 });
