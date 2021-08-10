@@ -10,18 +10,16 @@ describe('actor routes', () => {
   });
 
   it('creates a new actor', async () => {
-    const newActor = await request(app)
-      .post('/api/v1/actors')
-      .send({
-        name: 'Keanu Reeves',
-        dob: Date.UTC(1964, 9, 2),
-        pob: 'Beirut, Lebanon',
-      });
+    const newActor = await request(app).post('/api/v1/actors').send({
+      name: 'Keanu Reeves',
+      dob: '1964-09-02',
+      pob: 'Beirut, Lebanon',
+    });
 
     expect(newActor.body).toEqual({
       id: 1,
       name: 'Keanu Reeves',
-      dob: '1964-10-01',
+      dob: '1964-09-02',
       pob: 'Beirut, Lebanon',
     });
   });
@@ -29,13 +27,13 @@ describe('actor routes', () => {
   it('gets all actors', async () => {
     const actor1 = {
       name: 'Keanu Reeves',
-      dob: Date.UTC(1964, 9, 2),
+      dob: '1964-09-02',
       pob: 'Beirut, Lebanon',
     };
 
     const actor2 = {
       name: 'Bill Murray',
-      dob: Date.UTC(1950, 9, 21),
+      dob: '1950-09-21',
       pob: 'Evanston, IL',
     };
 
@@ -47,13 +45,13 @@ describe('actor routes', () => {
           {
             id: 1,
             name: 'Keanu Reeves',
-            dob: '1964-10-01',
+            dob: '1964-09-02',
             pob: 'Beirut, Lebanon',
           },
           {
             id: 2,
             name: 'Bill Murray',
-            dob: '1950-10-20',
+            dob: '1950-09-21',
             pob: 'Evanston, IL',
           },
         ]);
@@ -64,7 +62,7 @@ describe('actor routes', () => {
     const actor = await Actor.create({
       id: 1,
       name: 'Bill Murray',
-      dob: '1950-10-20',
+      dob: '09/21/1950',
       pob: 'Evanston, IL',
     });
 
